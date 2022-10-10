@@ -1,26 +1,49 @@
-* {
+:not(html, body) {
     background-color: black;
     color: beige;
-
-    padding: 5px;
+    font-family: sans-serif;
 }
 
 body {
+    background-color: black;
     display: flex;
     flex-direction: column;
+    margin: 1%;
+    height: 120vh;
 }
 
 h1, p, ul {
-    margin: 0px 10px;
+    margin: 5px 10px;
 }
 
-div {
-    background-color: aliceblue;
-    margin: 10px auto;
-    color: black;
+li {
+    margin: 0px;
 }
 
 h1 {
     font-family: 'Times New Roman', Times, serif;
     font-style: italic;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 30px;
+}
+
+.cell-container {
+    background-color: grey;
+    width: 99%;
+    height: 99%;
+    margin: 1% auto;
+    color: black;
+    text-align: center;
+}
+
+button {
+    background-color: aquamarine;
+    color: black;
+    width: 100px;
+    height: 50px;
+    margin: auto;
 }
