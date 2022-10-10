@@ -1,0 +1,26 @@
+* {
+    background-color: black;
+    color: beige;
+
+    padding: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+h1, p, ul {
+    margin: 0px 10px;
+}
+
+div {
+    background-color: aliceblue;
+    margin: 10px auto;
+    color: black;
+}
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+}
