@@ -1,13 +1,16 @@
+const CELL_LEN = 20;
+const CELL_MARGIN = 2;
+const ROW_NUM = 90;
+const COL_NUM = 180;
+
+let interval_id;
+const next_gen_board = [];
+const cells = []; 
 create_cells();
+activate_button();
 
 function create_cells() {
     const container = document.querySelector(".container");
-    const CELL_LEN = 20;
-    const CELL_MARGIN = 2;
-    const ROW_NUM = 90;
-    const COL_NUM = 180;
-
-    let cells = [];
     for (let i = 0; i < ROW_NUM; i++) {
         cells[i] = [];
         let row = document.createElement("div");
@@ -27,13 +30,67 @@ function create_cells() {
                 if (e.buttons === 1) e.target.classList.add("alive");
             })
 
-            // Below are code for displaying cell coordinates
-            // cells[i][j].textContent = `${i}, ${j}`;
-            // cells[i][j].style.color = "black";
-            // cells[i][j].style.fontSize = "xx-small";
-
             row.appendChild(cells[i][j]);
         }
     }
-    return cells;
+}
+
+function activate_button() {
+    const button = document.querySelector("button");
+    button.addEventListener("click", run_animation);
+}
+
+function run_animation(e) {
+    e.target.classList.toggle("running");
+    if (e.target.classList.contains("running")) {
+        interval_id = setInterval(update_cells, 100);
+    } else {
+        clearInterval(interval_id);
+    }
+}
+
+function update_cells() {
+    evaluate_next_gen();
+    repaint_cells()
+
+}
+
+function evaluate_next_gen() {
+    for (let i = 0; i < ROW_NUM; i++) {
+        next_gen_board[i] = [];
+        for (let j = 0; j < COL_NUM; j++) {
+            next_gen_board[i][j] = evaluate_cell_state(i, j);
+        }
+    }
+}
+
+function evaluate_cell_state(row, col) {
+    let neightbour_count = 0;
+    for (let i = -1; i < 2; i++) {
+        for (let j = -1; j < 2; j++) {
+            let valid_position = (row + i > 0) && 
+                (row + i < ROW_NUM) && 
+                (col + j > 0) && 
+                (col + j < COL_NUM) && 
+                (i != 0 || j != 0);
+            if (valid_position && cells[row + i][col + j].classList.contains("alive")) {
+                neightbour_count++;
+            }
+        }
+    }
+
+    return (neightbour_count == 3 || 
+            (neightbour_count == 2 && cells[row][col].classList.contains("alive")));
+}
+
+function repaint_cells() {
+    for (let i = 0; i < ROW_NUM; i++) {
+        for (let j = 0; j < COL_NUM; j++) {
+            if (next_gen_board[i][j]) {
+                cells[i][j].classList.add("alive");
+            } else {
+                cells[i][j].classList.remove("alive");
+            }
+        }
+    }
 }
